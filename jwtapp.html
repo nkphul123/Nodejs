@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JWT Local Storage Demo</title>
+</head>
+<body>
+
+<h2>Login</h2>
+<input id="username" placeholder="username">
+<input id="password" type="password" placeholder="password">
+<button onclick="login()">Login</button>
+
+<hr>
+
+<h3>Actions</h3>
+<button onclick="openDashboard()">Open Dashboard</button>
+<button onclick="logout()">Logout</button>
+
+<pre id="output"></pre>
+
+<script>
+async function login() {
+  const res = await fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value
+    })
+  });
+
+  const data = await res.json();
+
+  // 🔥 STORE TOKEN IN LOCAL STORAGE
+  localStorage.setItem("token", data.token);
+
+  document.getElementById("output").innerText =
+    "Login successful.\nToken stored in Local Storage.";
+}
+
+async function openDashboard() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    document.getElementById("output").innerText =
+      "No token found. Please login.";
+    return;
+  }
+
+  const res = await fetch("/dashboard", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  const text = await res.text();
+  document.getElementById("output").innerText = text;
+}
+
+function logout() {
+  // 🔥 REMOVE TOKEN FROM LOCAL STORAGE
+  localStorage.removeItem("token");
+
+  document.getElementById("output").innerText =
+    "Logged out. Token removed from Local Storage.";
+}
+</script>
+
+</body>
+</html>

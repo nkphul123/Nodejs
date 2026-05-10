@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Node.js Async Proof</title>
+</head>
+<body>
+
+<h2>Node.js Single-Thread Async Demo</h2>
+
+<button onclick="start()">Read File & Run Task</button>
+
+<p id="output"></p>
+
+<script>
+  function start() {
+    document.getElementById("output").innerHTML = "";
+
+    // Task 1: Read file content
+    fetch("/read-file")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("output").innerHTML += data + "<br>";
+      });
+
+    // Task 2: Fast execution
+    fetch("/fast-task")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("output").innerHTML += data + "<br>";
+      });
+  }
+</script>
+
+<!-- FILE CONTENT FOR ASYNC READ -->
+
+</body>
+</html>

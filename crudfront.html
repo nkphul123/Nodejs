@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple CRUD (No REST API)</title>
+</head>
+<body>
+
+<h1>Simple CRUD with Express + Mongoose</h1>
+
+<h2>Add Product</h2>
+<form action="/add" method="POST">
+    <input type="text" name="name" placeholder="Product Name" required><br><br>
+    <input type="number" name="price" placeholder="Product Price" required><br><br>
+    <button type="submit">Add</button>
+</form>
+
+<hr>
+
+<h2>View All Products</h2>
+<form action="/read" method="GET">
+    <button type="submit">Show Products</button>
+</form>
+
+<hr>
+
+<h2>Update Product</h2>
+<form action="/update" method="POST">
+    <input type="text" name="id" placeholder="Product ID" required><br><br>
+    <input type="text" name="name" placeholder="New Name" required><br><br>
+    <input type="number" name="price" placeholder="New Price" required><br><br>
+    <button type="submit">Update</button>
+</form>
+
+<hr>
+
+<h2>Delete Product</h2>
+<form action="/delete" method="POST">
+    <input type="text" name="id" placeholder="Product ID" required><br><br>
+    <button type="submit">Delete</button>
+</form>
+
+</body>
+</html>

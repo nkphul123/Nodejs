@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Node.js True Async Demo</title>
+  <style>
+    body { font-family: Arial; background:#f4f6f8; padding:40px }
+    button { padding:12px 20px; font-size:16px }
+    table { width:100%; margin-top:30px; background:white; border-collapse:collapse }
+    th, td { padding:15px; border:1px solid #ddd; text-align:center }
+    .running { color:orange; font-weight:bold }
+    .done { color:green; font-weight:bold }
+  </style>
+</head>
+<body>
+
+<h1>Node.js Asynchronous Execution (Real I/O)</h1>
+<p>One click -> real async operations -> out-of-order completion</p>
+
+<button onclick="startAll()">Start Tasks</button>
+
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>File Read (Async I/O)</td>
+    <td id="file"></td>
+  </tr>
+  <tr>
+    <td>Password Hash (CPU async)</td>
+    <td id="crypto"></td>
+  </tr>
+  <tr>
+    <td>Server Time (Immediate)</td>
+    <td id="time"></td>
+  </tr>
+</table>
+
+<script>
+  function startAll() {
+    run("/file", "file");
+    run("/crypto", "crypto");
+    run("/time", "time");
+  }
+
+  function run(url, id) {
+    document.getElementById(id).innerHTML =
+      "<span class='running'>⏳ Running...</span>";
+
+    fetch(url)
+      .then(res => res.text())
+      .then(msg => {
+        document.getElementById(id).innerHTML =
+          "<span class='done'>" + msg + "</span>";
+      });
+  }
+</script>
+
+</body>
+</html>

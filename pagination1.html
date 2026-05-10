@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+</head>
+<body>
+
+<h2>Products Table</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<br>
+
+<button onclick="changePage(-1)">⬅ Prev</button>
+<span id="pageInfo"></span>
+<button onclick="changePage(1)">Next ➡</button>
+
+<script>
+let page = 1;
+let totalPages = 1;
+
+// Fetch products for current page
+async function fetchProducts() {
+  const res = await fetch(`/products?page=${page}`);
+  const result = await res.json();
+
+  // Update table
+  const tableBody = document.getElementById("tableBody");
+  tableBody.innerHTML = result.data.map(p => `
+    <tr>
+      <td>${p.name}</td>
+      <td>${p.price}</td>
+    </tr>
+  `).join("");
+
+  // Update page info
+  totalPages = result.totalPages;
+  document.getElementById("pageInfo").innerText = `Page ${page} of ${totalPages}`;
+}
+
+// Change page by delta (+1 for next, -1 for prev)
+function changePage(delta) {
+  const newPage = page + delta;
+  if (newPage >= 1 && newPage <= totalPages) {
+    page = newPage;
+    fetchProducts();
+  }
+}
+
+// Load first page
+fetchProducts();
+</script>
+
+</body>
+</html>
